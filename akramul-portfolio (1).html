@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akramul Haque — Library & Information Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#181A2E;
+    --paper:#FBF9F6;
+    --violet:#6C4EF2;
+    --teal:#12A594;
+    --coral:#F2543D;
+    --gold:#F2A93B;
+    --card:#FFFFFF;
+    --line:rgba(24,26,46,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--gold); color:var(--ink);}
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'Space Mono', monospace;}
+  a{color:inherit;}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- blobs / color field ---------- */
+  .field{
+    position:fixed; inset:0; z-index:-1; overflow:hidden;
+  }
+  .blob{position:absolute; border-radius:50%; filter:blur(70px); opacity:0.35;}
+  .blob.b1{width:420px; height:420px; background:var(--violet); top:-140px; right:-100px;}
+  .blob.b2{width:380px; height:380px; background:var(--teal); bottom:-160px; left:-120px;}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:110px 0 80px; position:relative;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Mono', monospace; font-size:12.5px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--violet); margin-bottom:26px;
+  }
+  .eyebrow::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--coral);}
+
+  h1.name{
+    font-size:clamp(2.8rem, 8vw, 5.4rem);
+    line-height:0.98;
+  }
+  h1.name .accent{color:var(--violet); font-style:italic; font-weight:500;}
+
+  .role-line{
+    margin-top:26px; font-size:clamp(1.05rem, 2vw, 1.3rem);
+    max-width:48ch; color:rgba(24,26,46,0.75);
+  }
+  .role-line b{color:var(--teal); font-weight:600;}
+
+  .chip-row{margin-top:38px; display:flex; flex-wrap:wrap; gap:10px;}
+  .chip-row span{
+    font-family:'Space Mono', monospace; font-size:12px;
+    padding:8px 14px; border-radius:100px;
+    background:var(--card); border:1.3px solid var(--line);
+    color:rgba(24,26,46,0.7);
+  }
+
+  /* ---------- sections ---------- */
+  section{padding:60px 0; border-top:1px solid var(--line);}
+  .section-head{display:flex; align-items:center; gap:14px; margin-bottom:36px;}
+  .num{
+    font-family:'Space Mono', monospace; font-size:13px; font-weight:700;
+    color:var(--paper); background:var(--ink);
+    width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-head h2{font-size:clamp(1.5rem, 3vw, 2.1rem);}
+
+  /* ---------- about ---------- */
+  .about-body{max-width:64ch; font-size:1.04rem; color:rgba(24,26,46,0.85);}
+  .about-body p + p{margin-top:16px;}
+  .highlight{background:linear-gradient(180deg, transparent 62%, var(--gold) 62%);}
+
+  /* ---------- experience ---------- */
+  .timeline{display:flex; flex-direction:column;}
+  .tl-item{
+    display:grid; grid-template-columns:130px 1fr; gap:6px 26px;
+    padding:26px 0; border-top:1px solid var(--line); position:relative;
+  }
+  .tl-item:first-child{border-top:none;}
+  .tl-item .tag{
+    font-family:'Space Mono', monospace; font-size:12px; padding-top:3px;
+  }
+  .tl-item:nth-child(1) .tag{color:var(--violet);}
+  .tl-item:nth-child(2) .tag{color:var(--teal);}
+  .tl-item:nth-child(3) .tag{color:var(--coral);}
+  .tl-item h3{font-size:1.18rem;}
+  .tl-item .org{font-weight:500; color:rgba(24,26,46,0.6); font-size:0.95rem; margin-top:2px;}
+  .tl-item p{margin-top:8px; color:rgba(24,26,46,0.78); font-size:0.96rem; max-width:56ch;}
+
+  /* ---------- skills ---------- */
+  .skill-grid{display:flex; flex-wrap:wrap; gap:12px;}
+  .skill-grid span{
+    font-size:13.5px; font-weight:500;
+    padding:10px 16px; border-radius:10px;
+    color:var(--card);
+  }
+  .skill-grid span:nth-child(4n+1){background:var(--violet);}
+  .skill-grid span:nth-child(4n+2){background:var(--teal);}
+  .skill-grid span:nth-child(4n+3){background:var(--coral);}
+  .skill-grid span:nth-child(4n){background:var(--gold); color:var(--ink);}
+
+  /* ---------- research ---------- */
+  .research-card{
+    background:var(--card); border-radius:20px;
+    padding:32px 30px; border:1px solid var(--line);
+    box-shadow:0 14px 34px rgba(24,26,46,0.06);
+  }
+  .research-card .badge{
+    display:inline-block; font-family:'Space Mono', monospace; font-size:11px;
+    letter-spacing:0.08em; text-transform:uppercase;
+    background:var(--gold); color:var(--ink);
+    padding:4px 12px; border-radius:100px; margin-bottom:14px;
+  }
+  .research-card h3{font-size:1.3rem; font-style:italic; font-weight:500; line-height:1.35;}
+  .research-card p{margin-top:14px; color:rgba(24,26,46,0.78); font-size:0.97rem; max-width:58ch;}
+
+  .pub-list{margin-top:24px; display:flex; flex-direction:column; gap:16px;}
+  .pub-list li{list-style:none; display:flex; gap:16px; align-items:baseline; font-size:0.95rem;}
+  .pub-list .lbl{
+    font-family:'Space Mono', monospace; font-size:11.5px; color:var(--teal);
+    flex-shrink:0; width:90px;
+  }
+
+  /* ---------- contact ---------- */
+  footer{padding:80px 0 60px;}
+  footer h2{font-size:clamp(2rem, 5vw, 3rem); max-width:14ch;}
+  footer p.sub{margin-top:18px; max-width:46ch; color:rgba(24,26,46,0.75); font-size:1.02rem;}
+  .contact-links{margin-top:34px; display:flex; flex-wrap:wrap; gap:14px;}
+  .contact-links a{
+    font-family:'Space Mono', monospace; font-size:13.5px;
+    padding:13px 20px; border-radius:100px;
+    text-decoration:none; background:var(--ink); color:var(--paper);
+    transition:transform 0.15s ease, background 0.15s ease;
+    display:inline-block;
+  }
+  .contact-links a:hover{transform:translateY(-2px); background:var(--violet);}
+  .stamp{margin-top:56px; font-family:'Space Mono', monospace; font-size:11px; color:rgba(24,26,46,0.45);}
+
+  @media(max-width:600px){
+    header.hero{padding:70px 0 50px;}
+    .tl-item{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="field"><div class="blob b1"></div><div class="blob b2"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Library & Information Science</div>
+    <h1 class="name">Akramul <span class="accent">Haque</span></h1>
+    <p class="role-line">
+      Library Assistant at <b>Ayesha Abed Library, BRAC University</b> —
+      keeping the collection in order, the reading space running smoothly,
+      and helping students find the books or resources they need.
+    </p>
+    <div class="chip-row">
+      <span>📍 Dhaka, Bangladesh</span>
+      <span>Koha LMS</span>
+      <span>DSpace</span>
+      <span>ASIS&T Digital Libraries & AI Community</span>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head"><div class="num">1</div><h2>About</h2></div>
+    <div class="about-body">
+      <p>
+        Day to day, I keep the collection organized and accessible —
+        shelving and reshelving books, applying call number and RFID
+        labels, maintaining a quiet space for students to study, and
+        helping them track down the resources they need.
+      </p>
+      <p>
+        Alongside that, I bring a background in cataloging standards
+        (AACR2, MARC21) and library systems (Koha, DSpace) from
+        earlier roles and training.
+      </p>
+      <p>
+        <span class="highlight">I'm especially interested in what AI means
+        for cataloging in South Asian academic libraries</span> — not as a
+        replacement for professional judgment, but as a tool that raises
+        new questions about accuracy, bias, and authenticity in how we
+        organize knowledge.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head"><div class="num">2</div><h2>Experience</h2></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tag mono">Current</div>
+        <div>
+          <h3>Library Assistant</h3>
+          <div class="org">Ayesha Abed Library, BRAC University</div>
+          <p>Shelving and reshelving the collection, applying call number and RFID labels, maintaining a quiet reading environment, and helping students locate the books and resources they need.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tag mono">Prior</div>
+        <div>
+          <h3>Librarian</h3>
+          <div class="org">Ashiyan Medical College</div>
+          <p>Managed library operations and collections for the medical college community.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tag mono">Prior</div>
+        <div>
+          <h3>Cataloger Intern</h3>
+          <div class="org">Ahsanullah University of Science and Technology (AUST)</div>
+          <p>Hands-on cataloging experience applying descriptive and subject cataloging standards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head"><div class="num">3</div><h2>Skills</h2></div>
+    <div class="skill-grid">
+      <span>AACR2</span>
+      <span>MARC21</span>
+      <span>Koha LMS</span>
+      <span>DSpace</span>
+      <span>E-Resource Management</span>
+      <span>Digital Libraries</span>
+      <span>AI in Libraries</span>
+      <span>Patron Services</span>
+      <span>Knowledge Organization</span>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="section-head"><div class="num">4</div><h2>Research & Writing</h2></div>
+
+    <div class="research-card">
+      <span class="badge">In progress</span>
+      <h3>"Rethinking Cataloging Practices in the Age of AI: Perspectives from South Asian Academic Libraries"</h3>
+      <p>
+        A conceptual paper examining how AI is reshaping cataloging work in
+        South Asian academic libraries, targeting a Scopus-indexed journal.
+      </p>
+    </div>
+
+    <ul class="pub-list">
+      <li><span class="lbl">Newsletter</span> Contributor, ASIS&T South Asia Chapter Newsletter</li>
+      <li><span class="lbl">Community</span> Lead, Digital Libraries & AI Community, ASIS&T iConnect</li>
+    </ul>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="section-head"><div class="num">5</div><h2>Get in touch</h2></div>
+    <p class="sub">
+      Open to conversations on cataloging, digital libraries, and AI in LIS —
+      or opportunities in academic librarianship.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:akramulanik029@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/akramul-haque-9b7625331" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="stamp mono">Dhaka, Bangladesh — 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>
